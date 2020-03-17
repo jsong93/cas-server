@@ -1,0 +1,120 @@
+#SSL配置
+server:
+  port: 18080
+  ssl:
+    enabled: false
+    key-store: classpath:thekeystore
+    key-store-password: changeit
+    key-password: changeit
+  context-path: /cas
+#
+#cas:
+#  authn:
+#    jdbc:
+#      query:
+#        #数据库连接
+#        - url: jdbc:mysql://127.0.0.1:3306/blog_cas?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL
+#            =false
+#          # 用户名
+#          user: blog-cas
+#          # 密码
+#          password: blog-cas
+#          # 方言
+#          dialect: org.hibernate.dialect.MySQLDialect
+#          # 数据库驱动
+#          driverClass: com.mysql.jdbc.Driver
+#          #        idleTimeout: 5000
+#          #查询账号密码SQL，必须包含密码字段
+#          sql: select  username,password from user where username=?
+#          # 指定密码字段
+#          fieldPassword: password
+#          #指定过期字段，1为过期，若过期不可用
+#          #         fieldExpired: expired
+#          #         #为不可用字段段，1为不可用，需要修改密码
+#          #         fieldDisabled: disabled
+#          #          加密策略
+#          #默认加密策略，通过encodingAlgorithm来指定算法，默认NONE不加密
+#          # NONE|DEFAULT|STANDARD|BCRYPT|SCRYPT|PBKDF2
+#          passwordEncoder:
+#            type: DEFAULT
+##            characterEncoding: UTF-8
+#            encodingAlgorithm: MD5
+
+
+#盐加密
+#cas:
+#  authn:
+#    jdbc:
+#      encode:
+#          # jdbc
+#        -   url: jdbc:mysql://127.0.0.1:3306/blog_cas?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+#            # 方言
+#            dialect: org.hibernate.dialect.MySQL5Dialect
+#            # 数据库驱动
+#            driverClass: com.mysql.jdbc.Driver
+#            # 数据库用户名
+#            user: blog-cas
+#            # 数据库密码
+#            password: blog-cas
+#            # 加密迭代次数
+#            numberOfIterations: 2
+#            # 动态盐值
+#            saltFieldName: username
+#            # 静态盐值
+#            staticSalt: .
+#            # 查询sql
+#            sql: SELECT username,password FROM user WHERE username =?
+#            # 加密算法
+#            algorithmName: MD5
+#            # 密码字段
+#            passwordFieldName: password
+
+cas:
+  authn:
+    jdbc:
+      encode:
+        # jdbc
+        -   url: jdbc:mysql://127.0.0.1:3306/blog_cas?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+            # 驱动
+            driverClass: com.mysql.jdbc.Driver
+            # 方言
+            dialect: org.hibernate.dialect.MySQL5Dialect
+            # 数据库用户名
+            user: blog-cas
+            # 数据库密码
+            password: blog-cas
+            # 加密方式
+            algorithmName: MD5
+            # 加密迭代次数
+            numberOfIterations: 2
+            # 密码字段
+            passwordFieldName: password
+            # 动态盐值
+            saltFieldName: username
+            # 静态盐值
+            staticSalt: jsonghome
+            sql: SELECT username,password FROM user WHERE username =?
+  tgc:
+    secure: false
+  serviceRegistry:
+    initFromJson: true
+
+
+#
+#cas:
+#  authn:
+#    jdbc:
+#      query:
+#        - autocommit: false
+#          dialect: org.hibernate.dialect.MySQLDialect
+#          driverClass: com.mysql.jdbc.Driver
+#          fieldDisabled: disabled
+#          fieldExpired: expired
+#          fieldPassword: password
+#          idleTimeout: 5000
+#          password: 123
+#          passwordEncoder:
+#            type: NONE
+#          sql: select * from user where username=?
+#          url: jdbc:mysql://127.0.0.1:3306/cas?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+#          user: root
